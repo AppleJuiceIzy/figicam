@@ -1,6 +1,6 @@
 #pragma once
 // ============================================================
-//  Latent v1 — board settings live here. Secrets live in secrets.h.
+//  Figicam v1 — board settings live here. Secrets live in secrets.h.
 // ============================================================
 
 #if __has_include("secrets.h")
@@ -47,6 +47,6 @@
 #define PIN_SHUTTER      3   // Kailh Box Jade -> GND. Don't hold it while switching power on.
 #define PIN_ENC_A       14   // EC11 A
 #define PIN_ENC_B       21   // EC11 B   (EC11 middle pin C -> GND)
-#define PIN_I2C_SDA     41   // DS3231 + LCD backpack
+#define PIN_I2C_SDA     41   // DS3231 + OLED
 #define PIN_I2C_SCL     42
 #define BATT_DIVIDER  2.0f

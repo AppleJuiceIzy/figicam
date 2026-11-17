@@ -1,9 +1,14 @@
 # Figicam
 
 **A 27-exposure camera you build yourself that won't show you your photos.**
-You wind it, you shoot, and you wait. When the roll is done it goes to an online darkroom, you pick a film stock, and the photos develop a few minutes later.
+You wind it, you shoot, and you wait. When the roll is done it goes to an online darkroom, you pick a film stock, and the photos develop a couple of hours later.
 
-![Figicam](docs/images/hero.jpg)
+> [!NOTE]
+> **Before you start**
+> - **Difficulty:** intermediate
+> - **Build time:** ~1–2 days, plus printing
+> - **Skills:** soldering, using a multimeter, flashing a board
+> - **LiPo:** never short or puncture it, check polarity, and don't leave it charging unattended.
 
 ---
 
@@ -24,14 +29,14 @@ You wind it, you shoot, and you wait. When the roll is done it goes to an online
 
 ## Why this exists
 
-Watch the video here! 
+Phone photos are sharp, over-processed and look the same. Film fixes that: limited shots, imperfections, and you can't see anything until it's developed. But film gets expensive fast. Digicams are cheap to run, but you see every photo the moment you take it.
 
-tldr: it's a digital camera that behaves like a film camera:
+Figicam sits in between. It's a digital camera that behaves like a film camera:
 
 - **27 exposures per roll.** A film-style counter climbs from 0 to 27.
 - **Wind before every shot.** A thumbwheel needs 8 clicks before the shutter unlocks.
 - **No screen previews, ever.** The screen only shows the frame counter and battery.
-- **A darkroom instead of a camera roll.** Rolls upload to a web darkroom (built with [Lovable](https://lovable.dev)). You choose one film stock per roll, wait for it to develop, then the photos appear.
+- **A darkroom instead of a camera roll.** Rolls upload to a web darkroom (built with [Lovable](https://lovable.dev)). You choose one film stock per roll, wait a couple of hours, then the photos appear.
 - **Developing costs nothing.**
 
 It's not quite film, and it isn't exactly digital either.
@@ -54,6 +59,7 @@ flowchart LR
 - The camera works **fully offline**. Photos are saved to the microSD card as you shoot.
 - WiFi is only used to **upload a finished roll** and to **pair** the camera with your darkroom account.
 - Film stocks are applied in the darkroom, not on the camera. The original JPEGs are never modified, so a photo can be re-developed in a different stock later.
+- On the hosted darkroom, a real roll develops in **2 hours**. A **test strip** — a roll of 3 frames or fewer — develops in **1 minute**. That short wait is how you confirm the camera, the upload, and the darkroom before you shoot a full roll. On a remixed darkroom, the real-roll time is the `DEVELOP_MINUTES` secret (default 120). Test strips still develop in 1 minute.
 
 ---
 
@@ -61,22 +67,26 @@ flowchart LR
 
 ```
 figicam/
-├── firmware/          PlatformIO project (ESP32-S3, Arduino framework)
+├── firmware/                      PlatformIO project (ESP32-S3, Arduino framework)
 │   ├── platformio.ini
-│   ├── include/config.h   ← the only file you need to edit
+│   ├── include/secrets.example.h  Template
+│   ├── include/secrets.h          ← you must create this (gitignored)
+│   ├── include/config.h           ← optional tuning
 │   └── src/main.cpp
-├── cad/               Enclosure files (STEP + STL). Optional.
+├── cad/                           Enclosure files. Coming soon.
 ├── docs/
-│   ├── wiring.svg     Full wiring diagram
-│   └── images/        Build photos
+│   ├── wiring.svg                 Full wiring diagram
+│   └── images/                    Step-by-step build photos
 └── README.md
 ```
+
+`secrets.h` is the file you have to create. `config.h` is only for optional tuning, such as frames per roll. Step-by-step build photos live in `docs/images/`.
 
 ---
 
 ## Bill of materials
 
-Prices are roughly what I paid in Canada (CAD) in late 2026. Total parts per camera come to about **$140 CAD** (~$100 USD), less if you already have a battery, charger and passive components.
+Prices are roughly what I paid in Canada (CAD) in late 2026. Total parts per camera come to about **C$140**, less if you already have a battery, charger and passives.
 
 ### Electronics
 
@@ -175,21 +185,24 @@ The kit's 1 GB card is usually FAT32 already. If not, format it as **FAT32** (ma
 
 1. Install VS Code or Cursor, then the **PlatformIO IDE** extension. Reload when it asks.
 2. **File → Open Folder → `firmware/`**, the folder that contains `platformio.ini`. The first open downloads the ESP32 toolchain, which takes a few minutes.
-3. Edit `include/config.h`:
-   - `API_BASE`: your darkroom's API URL (see [Step 8](#step-8-set-up-the-darkroom)).
-   - `CAMERA_ID`: **make it unique**, e.g. `figicam-yourname`. Two cameras can't share an ID.
-   - `API_KEY`: generate one with `openssl rand -hex 16` and paste it in. **Never change it after pairing.** The darkroom locks your camera to the first key it sees.
-   - `FRAMES_PER_ROLL`: set to `3` while testing, `27` when you're done.
+3. Copy `firmware/include/secrets.example.h` to `firmware/include/secrets.h`:
+   - Set `API_KEY` there. On Mac or Linux, generate one with `openssl rand -hex 16`. In PowerShell: `-join ((1..32) | % { '{0:x}' -f (Get-Random -Max 16) })`. **Never change it after pairing.** The darkroom locks your camera to the first key it sees.
+   - `CAMERA_ID` is set automatically from the board's MAC. Only set it in `secrets.h` if you want a custom name.
+   - `FRAMES_PER_ROLL` stays in `config.h`. Set it to `3` while testing and `27` when you're done.
 4. Plug into the board's **UART** USB-C port, the one next to the small **CH343 / WCH** chip.
    - Not sure which port that is? Run `pio device list` and use the port with **VID:PID `1A86:55D3`** ("USB Single Serial"). On macOS it shows up as `/dev/cu.usbmodem…`.
-5. Upload and open the monitor:
+5. Upload and open the log from the PlatformIO buttons on the bottom status bar:
+   - **Upload** (→) builds the firmware and flashes the board.
+   - **Serial Monitor** (plug) opens the log.
+   Press **RST** on the board to see the full boot log.
+
+   From the PlatformIO Core CLI terminal instead:
    ```bash
    pio run -t upload
    pio device monitor -b 115200
    ```
-   Press **RST** on the board to see the full boot log.
 
-**☑ Check:** the log shows `=== Figicam v1 ===`, `psram:` around 8 MB, and `sd:1`. The camera, RTC and display will read `0` until they're connected.
+**✅ Check:** the log shows `=== Figicam v1 ===`, `psram:` around 8 MB, and `sd:1`. The camera, RTC and display will read `0` until they're connected.
 
 - **No port appears:** swap the cable (many USB-C cables only charge) or install the WCH CH343 driver.
 - **Stuck at "Connecting…":** hold **BOOT**, tap **RST**, release **BOOT**, and upload again.
@@ -198,7 +211,7 @@ The kit's 1 GB card is usually FAT32 already. If not, format it as **FAT32** (ma
 
 Power off. Flip up the latch on the board's camera FPC connector, remove the stock camera, slide in the OV5640 ribbon (contacts facing the same way as the stock ribbon), and close the latch.
 
-**☑ Check:** the boot log shows `Camera sensor PID: 0x5640 (OV5640)` and `camera:1`.
+**✅ Check:** the boot log shows `Camera sensor PID: 0x5640 (OV5640)` and `camera:1`.
 
 ### Step 4: Wire the I²C bus (OLED + RTC)
 
@@ -206,7 +219,7 @@ Power off. Flip up the latch on the board's camera FPC connector, remove the sto
 2. Wire both modules in parallel: **VCC → 3V3**, **GND → GND**, **SDA → GPIO41**, **SCL → GPIO42**.
    > Read the OLED's printed pin labels. Some boards are `VCC GND SCL SDA`, others `GND VCC SCL SDA`. Swapping VCC and GND kills the display.
 
-**☑ Check:** the boot log's I²C scan shows `0x3C` (OLED), `0x57` (RTC EEPROM) and `0x68` (RTC), then `rtc:1 lcd:1`. The OLED shows the frame counter.
+**✅ Check:** the boot log's I²C scan shows `0x3C` (OLED), `0x57` (RTC EEPROM) and `0x68` (RTC), then `rtc:1 lcd:1`. The OLED shows the frame counter.
 
 - If it finds `0x3C` but not `0x68`, the RTC's SDA/SCL are swapped or loose.
 - If the OLED shows garbage or is shifted by 2 px, it's an SH1106, not an SSD1306. Change the display constructor in `main.cpp` to `U8G2_SH1106_128X64_NONAME_F_HW_I2C`.
@@ -217,7 +230,7 @@ Power off. Flip up the latch on the board's camera FPC connector, remove the sto
 
 **Thumbwheel (EC11):** on the 3-pin side, **A → GPIO14**, **C (middle) → GND**, **B → GPIO21**. The 2-pin push-switch side stays unconnected. Optionally add 0.1 µF from A to GND and from B to GND if clicks jitter.
 
-**☑ Check:** turning the wheel fills the wind track on screen, and after 8 clicks the counter rolls to the next number. Pressing the shutter before winding flashes "WIND".
+**✅ Check:** turning the wheel fills the wind track on screen, and after 8 clicks the counter rolls to the next number. Pressing the shutter before winding flashes "WIND".
 
 - If one detent counts as two clicks (or two as one), change `ENC_STEPS_PER_CLICK` in `config.h` between 4 and 2.
 - If the wrong direction counts, set `ENC_REVERSE 1`.
@@ -235,11 +248,11 @@ Do this last, on perfboard, with a single ground strip.
 
 The SS12D00 is rated 0.5 A. The camera averages about 250 mA with short WiFi peaks, so use short, solid joints.
 
-**☑ Check:** unplug USB and flip the switch on. The board boots on battery and the battery icon shows a level instead of a lightning bolt. Charge through the **Micro-Lipo's** USB-C, never the board's.
+**✅ Check:** unplug USB and flip the switch on. The board boots on battery and the battery icon shows a level instead of a lightning bolt. Charge through the **Micro-Lipo's** USB-C, never the board's.
 
 ### Step 7: Enclosure
 
-The `cad/` folder has my body as STEP and STL files. It's optional: design your own if you want a different shape. Key dimensions if you design your own:
+Enclosure files in `cad/` are coming soon. Design your own if you want a body in the meantime. Key dimensions:
 
 | Part | Dimension |
 |---|---|
@@ -253,19 +266,16 @@ The `cad/` folder has my body as STEP and STL files. It's optional: design your 
 
 Print settings that worked for me: 0.2 mm layers, 3 walls, 15–20% infill, front and back halves printed flat. Install heat-set inserts with the iron at your filament's print temperature.
 
-**☑ Check:** before closing the body, run through a full roll with `FRAMES_PER_ROLL 3`.
+**✅ Check:** before closing the body, shoot a 3-frame test strip (`FRAMES_PER_ROLL 3`) to confirm the shutter, wheel, and counter.
 
 ### Step 8: Set up the darkroom
 
-Pick one:
+**Use the hosted darkroom.**
+Site: https://project--72c6fdf9-c335-4574-89fe-bfa19ac9a329.lovable.app
+`API_BASE` in `config.h` is already `https://project--72c6fdf9-c335-4574-89fe-bfa19ac9a329.lovable.app/api/public`.
+Sign in with your email and you're ready to pair. The camera id comes from the board's MAC unless you set `CAMERA_ID` in `secrets.h`.
 
-- **Option A: use the hosted darkroom (fastest).**
-  Site: <!-- TODO: confirm published URL --> https://project--72c6fdf9-c335-4574-89fe-bfa19ac9a329.lovable.app
-  In `config.h`: `API_BASE "https://project--72c6fdf9-c335-4574-89fe-bfa19ac9a329.lovable.app/api/public"`
-  Sign in with your email and you're ready to pair. Remember your `CAMERA_ID` must be unique.
-
-- **Option B: remix your own darkroom on Lovable.**
-  Open <!-- TODO: add your Lovable remix link --> **[the Figicam darkroom remix link](#)** and remix it. You get your own copy with its own backend, so your photos live in your account. Publish it, then set `API_BASE` to `https://<your-published-domain>/api/public`. While testing, set the `DEVELOP_MINUTES` secret to `1` so you don't wait two hours.
+Real rolls develop in **2 hours**. A test strip of 3 frames or fewer develops in **1 minute**, which is how you confirm everything works. On a remixed darkroom, the real-roll time is the `DEVELOP_MINUTES` secret (default 120). Test strips already develop in 1 minute, so you don't set that secret to 1 while testing.
 
 ### Step 9: Connect to WiFi and pair
 
@@ -280,7 +290,7 @@ Pick one:
 
 Repeat steps 2–4 any time to add another network. The camera remembers several and joins the strongest one in range. Pairing survives reboots, site reloads and new networks.
 
-**☑ Check:** shoot a 3-frame test roll (see [Using it](#using-it)). It uploads and shows up in the darkroom under **In the tray**.
+**✅ Check:** Shoot a 3-frame test strip (`FRAMES_PER_ROLL 3`). It uploads, appears under **In the tray**, and develops in 1 minute. Then set `FRAMES_PER_ROLL` back to 27 and re-flash.
 
 ---
 
@@ -314,7 +324,7 @@ Every camera request carries `x-camera-id` and `x-api-key`. Photos are stored in
 
 After frame 27 (or a rewind) the camera uploads the roll by itself. With no WiFi it shows "no wifi" and retries every minute. A shutter tap retries right away. **Photos are safe on the SD card until the roll is confirmed uploaded.**
 
-**In the darkroom:** open the roll from **In the tray**, pick **one** film stock, and hit **Develop**. When the timer runs out, the photos hang on the line. You can re-develop a single photo or the whole roll in a different stock later. It replaces the old look, and the original is always kept.
+**In the darkroom:** open the roll from **In the tray**, pick **one** film stock, and hit **Develop**. On the hosted darkroom a real roll develops in 2 hours. A test strip of 3 frames or fewer develops in 1 minute. On a remixed darkroom, real rolls use the `DEVELOP_MINUTES` secret (default 120). When the timer runs out, the photos hang on the line. You can re-develop a single photo or the whole roll in a different stock later. It replaces the old look, and the original is always kept.
 
 ---
 
@@ -346,4 +356,10 @@ After frame 27 (or a rewind) the camera uploads the roll by itself. With no WiFi
 - **HTTPS certificates aren't pinned yet** (`setInsecure()`).
 - v2 ideas: M12 lens mount for swappable lenses, ESP32-P4 + IMX219 for a better sensor, a custom PCB to shrink the body.
 
-Built by [Izy](https://izyanali.com) in **partnership** with [Lovable](https://lovable.dev).
+---
+
+## License
+
+<!-- TODO: pick a license (MIT is a common choice for hardware + firmware projects) -->
+
+Built by [Izy](https://izyanali.com). Darkroom built with [Lovable](https://lovable.dev).

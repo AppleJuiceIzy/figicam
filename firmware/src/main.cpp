@@ -1,5 +1,5 @@
 // ============================================================
-//  Latent v1 firmware
+//  Figicam v1 firmware
 //  Freenove ESP32-S3 WROOM CAM + OV5640 · 27 exposures
 //  Wind the thumbwheel -> press shutter -> photo to SD.
 //  After the last frame the roll uploads to the Lovable darkroom.
