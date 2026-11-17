@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1130 700" width="1130" height="700" role="img" aria-labelledby="dg-title">
+<style>
+.box{fill:#FFFFFF;stroke:#15171A;stroke-width:1.5}.board{fill:#F2F3F5;stroke:#15171A;stroke-width:2}.t{fill:#15171A;font-family:Helvetica,Arial,sans-serif;font-size:14px}.tb{fill:#15171A;font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:700}.tm{fill:#5B616B;font-family:Helvetica,Arial,sans-serif;font-size:12px}.tp{fill:#15171A;font-family:Menlo,Consolas,monospace;font-size:12.5px;font-weight:600}.ta{fill:#C4122F;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:600}.w{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}.pwr{stroke:#D32F2F}.gnd{stroke:#3A3F47}.sda{stroke:#1E6FD9}.scl{stroke:#B07900}.enc{stroke:#178A4E}.sh{stroke:#7B45C8}.adc{stroke:#0B8994}.fpc{stroke:#B5651D;stroke-width:10;stroke-linecap:butt;opacity:.85}.dot{fill:#15171A}.res{fill:#FFFFFF;stroke:#15171A;stroke-width:1.5}.g{stroke:#3A3F47;stroke-width:2;fill:none}
+</style>
+<rect x="0" y="0" width="1130" height="700" fill="#FFFFFF"/>
+        <title id="dg-title">Figicam v1 wiring: LiPo through charger, switch and Pololu regulator to the ESP32-S3 board; I2C to RTC and display; encoder, shutter and battery sense to GPIO.</title>
+        <defs>
+          <symbol id="gnd" viewBox="-12 0 24 18" overflow="visible">
+            <line class="g" x1="0" y1="0" x2="0" y2="7"/>
+            <line class="g" x1="-10" y1="7" x2="10" y2="7"/>
+            <line class="g" x1="-6" y1="11" x2="6" y2="11"/>
+            <line class="g" x1="-2.5" y1="15" x2="2.5" y2="15"/>
+          </symbol>
+        </defs>
+
+        <!-- ===== POWER COLUMN ===== -->
+        <rect class="box" x="30" y="24" width="210" height="62" rx="6"/>
+        <text class="tb" x="44" y="50">LiPo 3.7 V · 500 mAh</text>
+        <text class="tm" x="44" y="70">Adafruit, JST-PH</text>
+        <line class="w pwr" x1="150" y1="86" x2="150" y2="130"/>
+        <line class="w gnd" x1="60" y1="86" x2="60" y2="130"/>
+        <text class="tm" x="160" y="113">JST plug</text>
+
+        <rect class="box" x="30" y="130" width="210" height="100" rx="6"/>
+        <text class="tb" x="44" y="156">Micro-Lipo charger</text>
+        <text class="tm" x="44" y="176">Adafruit #4410</text>
+        <text class="ta" x="44" y="196">USB-C here = charging</text>
+        <text class="tp" x="138" y="222">BAT</text>
+        <text class="tp" x="48" y="222">GND</text>
+
+        <!-- BAT to switch -->
+        <line class="w pwr" x1="150" y1="230" x2="150" y2="280"/>
+        <rect class="box" x="100" y="280" width="100" height="44" rx="6"/>
+        <text class="tb" x="113" y="307">Switch</text>
+        <line class="w pwr" x1="150" y1="324" x2="150" y2="380"/>
+        <circle class="dot" cx="150" cy="352" r="4"/>
+
+        <!-- GND down to Pololu -->
+        <line class="w gnd" x1="60" y1="230" x2="60" y2="380"/>
+
+        <rect class="box" x="30" y="380" width="210" height="100" rx="6"/>
+        <text class="tp" x="48" y="398">GND</text>
+        <text class="tp" x="138" y="398">VIN</text>
+        <text class="tb" x="44" y="428">Pololu S7V8F3</text>
+        <text class="tm" x="44" y="448">3.3 V buck-boost</text>
+        <text class="ta" x="44" y="468">No reverse protection</text>
+        <text class="tp" x="158" y="500">VOUT</text>
+
+        <!-- VOUT to 3V3 -->
+        <polyline class="w pwr" points="150,480 150,600 390,600"/>
+        <circle class="dot" cx="330" cy="600" r="4"/>
+        <line class="w pwr" x1="330" y1="600" x2="330" y2="618"/>
+        <line class="w pwr" x1="320" y1="618" x2="340" y2="618"/>
+        <text class="ta" x="345" y="616">+</text>
+        <line class="w gnd" x1="320" y1="625" x2="340" y2="625"/>
+        <line class="w gnd" x1="330" y1="625" x2="330" y2="640"/>
+        <use href="#gnd" x="318" y="640" width="24" height="18"/>
+        <text class="tm" x="312" y="626" text-anchor="end">100 µF (optional)</text>
+
+        <!-- Battery divider -->
+        <line class="w pwr" x1="150" y1="352" x2="290" y2="352"/>
+        <line class="w pwr" x1="290" y1="352" x2="290" y2="364"/>
+        <rect class="res" x="281" y="364" width="18" height="40" rx="2"/>
+        <text class="tm" x="306" y="389">100k</text>
+        <line class="w adc" x1="290" y1="404" x2="290" y2="438"/>
+        <circle class="dot" cx="290" cy="420" r="4"/>
+        <rect class="res" x="281" y="438" width="18" height="40" rx="2"/>
+        <text class="tm" x="306" y="463">100k</text>
+        <line class="w gnd" x1="290" y1="478" x2="290" y2="490"/>
+        <use href="#gnd" x="278" y="490" width="24" height="18"/>
+        <line class="w adc" x1="290" y1="420" x2="390" y2="420"/>
+        <circle class="dot" cx="350" cy="420" r="4"/>
+        <line class="w adc" x1="350" y1="420" x2="350" y2="440"/>
+        <line class="w adc" x1="340" y1="440" x2="360" y2="440"/>
+        <line class="w gnd" x1="340" y1="447" x2="360" y2="447"/>
+        <line class="w gnd" x1="350" y1="447" x2="350" y2="462"/>
+        <use href="#gnd" x="338" y="462" width="24" height="18"/>
+        <text class="ta" x="350" y="497" text-anchor="middle">0.1 µF</text>
+
+        <!-- ===== CAMERA ===== -->
+        <rect class="box" x="455" y="18" width="200" height="62" rx="6"/>
+        <text class="tb" x="469" y="44">OV5640 · 68° FF</text>
+        <text class="tm" x="469" y="64">5 MP · 78 mm ribbon</text>
+        <line class="w fpc" x1="555" y1="80" x2="555" y2="150"/>
+        <text class="tm" x="568" y="120">FPC ribbon (no wiring)</text>
+
+        <!-- ===== BOARD ===== -->
+        <rect class="board" x="390" y="150" width="310" height="530" rx="10"/>
+        <text class="tb" x="410" y="180">Freenove ESP32-S3 CAM</text>
+        <text class="tm" x="410" y="199">8 MB PSRAM · 16 MB flash</text>
+        <rect class="box" x="470" y="240" width="140" height="56" rx="4"/>
+        <text class="t" x="486" y="265">microSD (onboard)</text>
+        <text class="tm" x="486" y="284">holds the roll offline</text>
+
+        <!-- left pins -->
+        <text class="tp" x="400" y="424">GPIO1 · ADC</text>
+        <text class="tp" x="400" y="604">3V3</text>
+        <text class="tp" x="400" y="644">GND</text>
+        <line class="w gnd" x1="390" y1="640" x2="372" y2="640"/>
+        <use href="#gnd" x="360" y="640" width="24" height="18"/>
+
+        <!-- right pins -->
+        <text class="tp" x="690" y="204" text-anchor="end">GPIO41 · SDA</text>
+        <text class="tp" x="690" y="244" text-anchor="end">GPIO42 · SCL</text>
+        <text class="tp" x="690" y="434" text-anchor="end">GPIO14 · ENC A</text>
+        <text class="tp" x="690" y="474" text-anchor="end">GPIO21 · ENC B</text>
+        <text class="tp" x="690" y="564" text-anchor="end">GPIO3 · SHUTTER</text>
+        <text class="tm" x="690" y="624" text-anchor="end">GPIO2 · unused</text>
+        <text class="ta" x="410" y="668">USB-C here = flashing only · switch OFF</text>
+
+        <!-- ===== I2C ===== -->
+        <line class="w sda" x1="700" y1="200" x2="820" y2="200"/>
+        <line class="w scl" x1="700" y1="240" x2="820" y2="240"/>
+        <circle class="dot" cx="760" cy="200" r="4"/>
+        <circle class="dot" cx="785" cy="240" r="4"/>
+        <polyline class="w sda" points="760,200 760,315 820,315"/>
+        <polyline class="w scl" points="785,240 785,345 820,345"/>
+
+        <rect class="box" x="820" y="160" width="270" height="104" rx="6"/>
+        <text class="tb" x="836" y="186">DS3231 RTC</text>
+        <text class="tp" x="836" y="204">SDA</text>
+        <text class="tp" x="836" y="244">SCL</text>
+        <text class="tm" x="900" y="204">VCC → 3V3 · GND → GND</text>
+        <text class="tm" x="900" y="222">addr 0x68 · pull-ups onboard</text>
+        <text class="ta" x="900" y="244">3.3 V only · CR2032 in</text>
+
+        <rect class="box" x="820" y="285" width="270" height="86" rx="6"/>
+        <text class="tb" x="836" y="306">Frame counter display</text>
+        <text class="tp" x="836" y="319">SDA</text>
+        <text class="tp" x="836" y="349">SCL</text>
+        <text class="tm" x="900" y="330">SSD1306 0.96" white OLED</text>
+        <text class="tm" x="900" y="348">0x3C · VCC → 3V3</text>
+
+        <!-- ===== ENCODER ===== -->
+        <line class="w enc" x1="700" y1="430" x2="820" y2="430"/>
+        <line class="w enc" x1="700" y1="470" x2="820" y2="470"/>
+        <rect class="box" x="820" y="400" width="270" height="100" rx="6"/>
+        <text class="tb" x="836" y="424">EC11 thumbwheel</text>
+        <text class="tp" x="836" y="444">A</text>
+        <text class="tp" x="836" y="474">B</text>
+        <text class="tm" x="860" y="444">20 detents · ~8 clicks = wound</text>
+        <text class="tm" x="860" y="474">middle pin C → GND</text>
+        <text class="tm" x="860" y="492">push-switch pins unused</text>
+        <line class="w gnd" x1="1090" y1="460" x2="1100" y2="460"/>
+        <use href="#gnd" x="1088" y="460" width="24" height="18"/>
+
+        <!-- ===== SHUTTER ===== -->
+        <line class="w sh" x1="700" y1="560" x2="820" y2="560"/>
+        <rect class="box" x="820" y="530" width="270" height="62" rx="6"/>
+        <text class="tb" x="836" y="554">Kailh Box Jade</text>
+        <text class="tm" x="836" y="576">shutter · other leg → GND</text>
+        <line class="w gnd" x1="1090" y1="560" x2="1100" y2="560"/>
+        <use href="#gnd" x="1088" y="560" width="24" height="18"/>
+        <g font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#5B616B">
+          <text x="730" y="625" font-weight="700" fill="#15171A">Legend</text>
+          <line x1="730" y1="642" x2="752" y2="642" stroke="#D32F2F" stroke-width="3"/><text x="758" y="646">Power</text>
+          <line x1="810" y1="642" x2="832" y2="642" stroke="#3A3F47" stroke-width="3"/><text x="838" y="646">Ground</text>
+          <line x1="895" y1="642" x2="917" y2="642" stroke="#0B8994" stroke-width="3"/><text x="923" y="646">Battery sense</text>
+          <line x1="730" y1="664" x2="752" y2="664" stroke="#1E6FD9" stroke-width="3"/><text x="758" y="668">SDA</text>
+          <line x1="810" y1="664" x2="832" y2="664" stroke="#B07900" stroke-width="3"/><text x="838" y="668">SCL</text>
+          <line x1="895" y1="664" x2="917" y2="664" stroke="#178A4E" stroke-width="3"/><text x="923" y="668">Encoder</text>
+          <line x1="995" y1="664" x2="1017" y2="664" stroke="#7B45C8" stroke-width="3"/><text x="1023" y="668">Shutter</text>
+          <text x="730" y="690">Dot = connected · crossing without a dot = not connected</text>
+        </g>
+      </svg>

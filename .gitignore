@@ -1,0 +1,5 @@
+.pio/
+.vscode/
+.DS_Store
+_old/
+firmware/include/secrets.h
