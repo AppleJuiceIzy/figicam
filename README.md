@@ -1,9 +1,8 @@
 # Figicam
 
 **A 27-exposure camera you build yourself that won't show you your photos.**
-You wind it, you shoot, and you wait. When the roll is done it goes to an online darkroom, you pick a film stock, and the photos develop a few hours later.
+You wind it, you shoot, and you wait. When the roll is done it goes to an online darkroom, you pick a film stock, and the photos develop a few minutes later.
 
-<!-- TODO: add a hero photo of the camera -->
 ![Figicam](docs/images/hero.jpg)
 
 ---
@@ -25,9 +24,9 @@ You wind it, you shoot, and you wait. When the roll is done it goes to an online
 
 ## Why this exists
 
-Phone photos are sharp, over-processed and look the same. Film fixes that: limited shots, imperfections, and you can't see anything until it's developed. But film gets expensive fast. Digicams are cheap to run, but you see every photo the moment you take it.
+Watch the video here! 
 
-Figicam sits in between. It's a digital camera that behaves like a film camera:
+tldr: it's a digital camera that behaves like a film camera:
 
 - **27 exposures per roll.** A film-style counter climbs from 0 to 27.
 - **Wind before every shot.** A thumbwheel needs 8 clicks before the shutter unlocks.
@@ -77,7 +76,7 @@ figicam/
 
 ## Bill of materials
 
-Prices are roughly what I paid in Canada (CAD) in late 2026. Total parts per camera come to about **C$140**, less if you already have a battery, charger and passives.
+Prices are roughly what I paid in Canada (CAD) in late 2026. Total parts per camera come to about **$140 CAD** (~$100 USD), less if you already have a battery, charger and passive components.
 
 ### Electronics
 
@@ -190,7 +189,7 @@ The kit's 1 GB card is usually FAT32 already. If not, format it as **FAT32** (ma
    ```
    Press **RST** on the board to see the full boot log.
 
-**✅ Check:** the log shows `=== Figicam v1 ===`, `psram:` around 8 MB, and `sd:1`. The camera, RTC and display will read `0` until they're connected.
+**☑ Check:** the log shows `=== Figicam v1 ===`, `psram:` around 8 MB, and `sd:1`. The camera, RTC and display will read `0` until they're connected.
 
 - **No port appears:** swap the cable (many USB-C cables only charge) or install the WCH CH343 driver.
 - **Stuck at "Connecting…":** hold **BOOT**, tap **RST**, release **BOOT**, and upload again.
@@ -199,7 +198,7 @@ The kit's 1 GB card is usually FAT32 already. If not, format it as **FAT32** (ma
 
 Power off. Flip up the latch on the board's camera FPC connector, remove the stock camera, slide in the OV5640 ribbon (contacts facing the same way as the stock ribbon), and close the latch.
 
-**✅ Check:** the boot log shows `Camera sensor PID: 0x5640 (OV5640)` and `camera:1`.
+**☑ Check:** the boot log shows `Camera sensor PID: 0x5640 (OV5640)` and `camera:1`.
 
 ### Step 4: Wire the I²C bus (OLED + RTC)
 
@@ -207,7 +206,7 @@ Power off. Flip up the latch on the board's camera FPC connector, remove the sto
 2. Wire both modules in parallel: **VCC → 3V3**, **GND → GND**, **SDA → GPIO41**, **SCL → GPIO42**.
    > Read the OLED's printed pin labels. Some boards are `VCC GND SCL SDA`, others `GND VCC SCL SDA`. Swapping VCC and GND kills the display.
 
-**✅ Check:** the boot log's I²C scan shows `0x3C` (OLED), `0x57` (RTC EEPROM) and `0x68` (RTC), then `rtc:1 lcd:1`. The OLED shows the frame counter.
+**☑ Check:** the boot log's I²C scan shows `0x3C` (OLED), `0x57` (RTC EEPROM) and `0x68` (RTC), then `rtc:1 lcd:1`. The OLED shows the frame counter.
 
 - If it finds `0x3C` but not `0x68`, the RTC's SDA/SCL are swapped or loose.
 - If the OLED shows garbage or is shifted by 2 px, it's an SH1106, not an SSD1306. Change the display constructor in `main.cpp` to `U8G2_SH1106_128X64_NONAME_F_HW_I2C`.
@@ -218,7 +217,7 @@ Power off. Flip up the latch on the board's camera FPC connector, remove the sto
 
 **Thumbwheel (EC11):** on the 3-pin side, **A → GPIO14**, **C (middle) → GND**, **B → GPIO21**. The 2-pin push-switch side stays unconnected. Optionally add 0.1 µF from A to GND and from B to GND if clicks jitter.
 
-**✅ Check:** turning the wheel fills the wind track on screen, and after 8 clicks the counter rolls to the next number. Pressing the shutter before winding flashes "WIND".
+**☑ Check:** turning the wheel fills the wind track on screen, and after 8 clicks the counter rolls to the next number. Pressing the shutter before winding flashes "WIND".
 
 - If one detent counts as two clicks (or two as one), change `ENC_STEPS_PER_CLICK` in `config.h` between 4 and 2.
 - If the wrong direction counts, set `ENC_REVERSE 1`.
@@ -236,7 +235,7 @@ Do this last, on perfboard, with a single ground strip.
 
 The SS12D00 is rated 0.5 A. The camera averages about 250 mA with short WiFi peaks, so use short, solid joints.
 
-**✅ Check:** unplug USB and flip the switch on. The board boots on battery and the battery icon shows a level instead of a lightning bolt. Charge through the **Micro-Lipo's** USB-C, never the board's.
+**☑ Check:** unplug USB and flip the switch on. The board boots on battery and the battery icon shows a level instead of a lightning bolt. Charge through the **Micro-Lipo's** USB-C, never the board's.
 
 ### Step 7: Enclosure
 
@@ -254,7 +253,7 @@ The `cad/` folder has my body as STEP and STL files. It's optional: design your 
 
 Print settings that worked for me: 0.2 mm layers, 3 walls, 15–20% infill, front and back halves printed flat. Install heat-set inserts with the iron at your filament's print temperature.
 
-**✅ Check:** before closing the body, run through a full roll with `FRAMES_PER_ROLL 3`.
+**☑ Check:** before closing the body, run through a full roll with `FRAMES_PER_ROLL 3`.
 
 ### Step 8: Set up the darkroom
 
@@ -281,7 +280,7 @@ Pick one:
 
 Repeat steps 2–4 any time to add another network. The camera remembers several and joins the strongest one in range. Pairing survives reboots, site reloads and new networks.
 
-**✅ Check:** shoot a 3-frame test roll (see [Using it](#using-it)). It uploads and shows up in the darkroom under **In the tray**.
+**☑ Check:** shoot a 3-frame test roll (see [Using it](#using-it)). It uploads and shows up in the darkroom under **In the tray**.
 
 ---
 
@@ -347,10 +346,4 @@ After frame 27 (or a rewind) the camera uploads the roll by itself. With no WiFi
 - **HTTPS certificates aren't pinned yet** (`setInsecure()`).
 - v2 ideas: M12 lens mount for swappable lenses, ESP32-P4 + IMX219 for a better sensor, a custom PCB to shrink the body.
 
----
-
-## License
-
-<!-- TODO: pick a license (MIT is a common choice for hardware + firmware projects) -->
-
-Built by [Izy](https://izyanali.com). Darkroom built with [Lovable](https://lovable.dev).
+Built by [Izy](https://izyanali.com) in **partnership** with [Lovable](https://lovable.dev).
