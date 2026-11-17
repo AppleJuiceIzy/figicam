@@ -1,4 +1,4 @@
-# Figicam x Lovable
+# Figicam (sponsored by Lovable)
 
 **A 27-exposure camera you build yourself that won't show you your photos.**
 You wind it, you shoot, and you wait. When the roll is done it goes to an online darkroom, you pick a film stock, and the photos develop a couple of hours later.
