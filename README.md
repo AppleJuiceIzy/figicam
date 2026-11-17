@@ -29,7 +29,7 @@ You wind it, you shoot, and you wait. When the roll is done it goes to an online
 
 ## Why this exists
 
-Watch the video [HERE](url)!
+<!--Watch the video [HERE](url)!-->
 
 Phone photos are sharp, over-processed and look the same. Film fixes that: limited shots, imperfections, and you can't see anything until it's developed. But film gets expensive fast. Digicams are cheap to run, but you see every photo the moment you take it.
 
