@@ -37,9 +37,9 @@ Watch the video [HERE](https://www.instagram.com/reel/Df2PxYsBkcc/?id=4032479880
 
 <table>
   <tr>
-    <td><img width="250" alt="Still 2026-11-22 222046_1 3 1" src="https://github.com/user-attachments/assets/f86657a4-e999-43da-8c63-58f537afcb11" /></td>
-    <td><img width="250" alt="Still 2026-11-22 222046_1 16 1" src="https://github.com/user-attachments/assets/1b73ed84-c5a1-4327-8c15-aaa15b26f832" /></td>
-    <td><img width="250" alt="Still 2026-11-22 222046_1 16 1" src="https://github.com/user-attachments/assets/5f42b48e-25e9-482c-9b17-f7fd15e87e47" /></td>
+    <td><img width="300" alt="Still 2026-11-22 222046_1 3 1" src="https://github.com/user-attachments/assets/f86657a4-e999-43da-8c63-58f537afcb11" /></td>
+    <td><img width="300" alt="Still 2026-11-22 222046_1 16 1" src="https://github.com/user-attachments/assets/1b73ed84-c5a1-4327-8c15-aaa15b26f832" /></td>
+    <td><img width="300" alt="Still 2026-11-22 222103_2 17 1" src="https://github.com/user-attachments/assets/c9f23309-b260-460d-a950-924859fc85f8" /></td>
   </tr>
 </table>
 
