@@ -3,6 +3,9 @@
 **A 27-exposure camera you build yourself that won't show you your photos.**
 You wind it, you shoot, and you wait. When the roll is done it goes to an online darkroom, you pick a film stock, and the photos develop a couple of hours later.
 
+
+<img width="7008" height="4672" alt="DSC00438" src="https://github.com/user-attachments/assets/4d4030a7-6800-4953-842e-db8700bd3e16" />
+
 > [!NOTE]
 > **Before you start**
 > - **Difficulty:** intermediate
@@ -29,7 +32,7 @@ You wind it, you shoot, and you wait. When the roll is done it goes to an online
 
 ## Why this exists
 
-<!--Watch the video [HERE](url)!-->
+Watch the video [HERE](https://www.instagram.com/reel/Df2PxYsBkcc/?id=4032479880817297180_72046712733&is_sponsored=false&is_ineligible_for_clips_chaining=false) (500k+ views, 33k+ likes, 6k+ comments)
 
 Phone photos are sharp, over-processed and look the same. Film fixes that: limited shots, imperfections, and you can't see anything until it's developed. But film gets expensive fast. Digicams are cheap to run, but you see every photo the moment you take it.
 
