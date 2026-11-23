@@ -192,6 +192,9 @@ Battery + (after the switch)
 
 This assumes you're comfortable soldering, reading a pinout and using a multimeter. Build and test in this order: **firmware on bare USB first, then add parts one at a time, power section last.** Every step ends with a check.
 
+<img width="7008" height="4672" alt="DSC00453" src="https://github.com/user-attachments/assets/411141f8-5bb8-4354-9f5a-a26f781bd3d6" />
+
+
 ### Step 1: Prepare the microSD card
 
 The kit's 1 GB card is usually FAT32 already. If not, format it as **FAT32** (macOS Disk Utility: *MS-DOS (FAT)*, *Master Boot Record*). Insert it into the board's onboard slot, gold contacts toward the board.
