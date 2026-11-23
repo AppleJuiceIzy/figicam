@@ -101,21 +101,21 @@ Prices are roughly what I paid in Canada (CAD) in late 2026. Total parts per cam
 | Qty | Part | Notes | ~Price |
 |---|---|---|---|
 | 1 | **Freenove ESP32-S3-WROOM CAM** (N16R8: 16 MB flash, 8 MB PSRAM) | Has a camera connector and microSD slot onboard. The PSRAM is required for 5 MP photos | C$33 |
-| 1–2 | **OV5640 camera module, 24-pin DVP, 68°, fixed focus** | Get the long ribbon (75–78 mm). A second one is a cheap spare | C$11 each |
+| 1–2 | **OV5640 camera module, 24-pin DVP, 68°, fixed focus** | Get the long ribbon (75–78 mm). A second one is a cheap spare | C$11 for two |
 | 1 | **SSD1306 0.96" OLED, I²C, white** | Get **white**. The "yellow/blue" versions are two-color panels and can't be changed in code | C$10 |
 | 1 | **DS3231 RTC module** (ZS-042) + **CR2032** | Timestamps photos while offline | C$15 |
 | 1 | **EC11 rotary encoder with detents, 20 detents/rev** | The film-advance thumbwheel. "With detents" matters | C$4 (5-pack C$17) |
 | 1 | **Kailh Box Jade** switch | The clicky shutter | C$2 (10-pack C$16) |
 | 1 | **3.7 V LiPo, 500 mAh, JST-PH** (e.g. Adafruit #1578) | Bigger is fine if it fits your body | ~C$11 |
 | 1 | **Adafruit Micro-Lipo charger, USB-C** (#4410) | Charges the battery through its own USB-C port | ~C$8 |
-| 1 | **Pololu S7V8F3** 3.3 V buck-boost regulator | Holds a steady 3.3 V as the LiPo drains from 4.2 V to 3.0 V. Has **no reverse-polarity protection** | C$14 |
+| 1 | **Pololu S7V8F3** 3.3 V buck-boost regulator | Holds a steady 3.3 V as the LiPo drains from 4.2 V to 3.0 V. Has **no reverse-polarity protection** | C$14 (backorder) |
 | 1 | **SS12D00** (or any SPDT) slide switch | Main power | <C$1 |
 | 2 | 100 kΩ resistor | Battery voltage divider | — |
 | 1–3 | 0.1 µF ceramic capacitor | Divider smoothing (required), encoder debounce (optional) | — |
 | 1 | 100–470 µF electrolytic, ≥6.3 V | Optional. Add it if WiFi uploads cause resets | — |
 | — | Perfboard, silicone wire, headers, JST-PH pigtail | | — |
 
-### Enclosure (optional, see [CAD](#step-7-enclosure))
+### Enclosure (optional - bc your figicam can be custom to how YOU build it, see [CAD](#step-7-enclosure) for the original enclosure)
 
 | Qty | Part | Notes |
 |---|---|---|
