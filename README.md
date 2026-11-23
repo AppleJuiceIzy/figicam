@@ -26,7 +26,8 @@ You wind it, you shoot, and you wait. When the roll is done it goes to an online
 7. [How the camera connects to Lovable](#how-the-camera-connects-to-lovable)
 8. [Using it](#using-it)
 9. [Troubleshooting](#troubleshooting)
-10. [Limits and ideas for v2](#limits-and-ideas-for-v2)
+10. [Sample Pictures](#sample-pictures)
+11. [Limits and ideas for v2](#limits-and-ideas-for-v2)
 
 ---
 
@@ -354,6 +355,17 @@ After frame 27 (or a rewind) the camera uploads the roll by itself. With no WiFi
 | Upload returns 403 / "not paired" | Hold the shutter 8 s and pair again |
 | Board resets when uploading on battery | Add the 100 µF cap across 3V3/GND. Check for `Brownout` in the log |
 | Roll state stuck after testing | Set `RESET_ROLL_ON_BOOT 1`, flash once, set back to `0` |
+
+---
+## Sample Pictures
+
+<img width="2560" height="1920" alt="IMG_8311" src="https://github.com/user-attachments/assets/fdd6de9a-d4d7-4a0f-9840-a8be3232bd6c" />
+<img width="2560" height="1920" alt="IMG_8301" src="https://github.com/user-attachments/assets/ba4681a6-b535-485b-8467-837653f9deae" />
+<img width="2560" height="1920" alt="IMG_8310" src="https://github.com/user-attachments/assets/897b0229-e71c-4456-8ebd-43b804b38672" />
+<img width="2560" height="1920" alt="IMG_8303" src="https://github.com/user-attachments/assets/0493d05d-ab01-47a5-9970-9003c7a3bcae" />
+<img width="2560" height="1920" alt="Figicam-Roll-5" src="https://github.com/user-attachments/assets/311e7a4d-9934-4f87-8d9f-d75f85fa2815" />
+<img width="2560" height="1920" alt="Figicam-Roll-8" src="https://github.com/user-attachments/assets/8feb61fa-71a1-49e3-b8e5-7795460cccb6" />
+
 
 ---
 
