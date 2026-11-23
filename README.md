@@ -34,6 +34,9 @@ You wind it, you shoot, and you wait. When the roll is done it goes to an online
 
 Watch the video [HERE](https://www.instagram.com/reel/Df2PxYsBkcc/?id=4032479880817297180_72046712733&is_sponsored=false&is_ineligible_for_clips_chaining=false) (500k+ views, 33k+ likes, 6k+ comments)
 
+<img width="376" height="526" alt="IMG_8443" src="https://github.com/user-attachments/assets/347a4f38-840c-433d-a937-a260e08bc7ee" />
+
+
 Phone photos are sharp, over-processed and look the same. Film fixes that: limited shots, imperfections, and you can't see anything until it's developed. But film gets expensive fast. Digicams are cheap to run, but you see every photo the moment you take it.
 
 Figicam sits in between. It's a digital camera that behaves like a film camera:
